@@ -15,6 +15,7 @@ export default function reducer(state = initialState, action){
                     hasDiscount: action.payload.hasDiscount || false,
                 }
             ];
+            
         case actions.PRODUCT_REMOVED:
             return state.filter(product => product.id !== action.payload.id);
 

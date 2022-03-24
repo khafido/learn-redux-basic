@@ -1,11 +1,20 @@
 import store from "./store/store";
-import {productAdded, productMarkAsDiscount, productRemoved} from "./store/product";
+import {
+    productAdded, 
+    productMarkAsDiscount, 
+    productRemoved
+} from "./store/product";
+
+import {userAdded, userRemoved} from "./store/user";
+import { addedProductToCart } from "./store/cart";
+
 // import {productAdded, productMarkAsDiscount, productRemoved} from "./store/product/action";
 
 store.subscribe(() => {
     console.log('Store changed!', store.getState());
 });
 
+// Products
 store.dispatch(productAdded({
     name: "Product 1",
     price: 1500,
@@ -30,4 +39,31 @@ store.dispatch(productMarkAsDiscount({
     hasDiscount: true
 }));
 
-// console.log(store.getState())
+// Users
+store.dispatch(userAdded({
+    name: "User 1",
+}));
+
+store.dispatch(userAdded({
+    name: "User 2",
+}));
+
+store.dispatch(userRemoved({
+    user_id: 2
+}));
+
+store.dispatch(userAdded({
+    name: "User 3",
+}));
+
+
+// Cart
+ store.dispatch(addedProductToCart({
+    product_id:1,
+    quantity:2
+ }));
+
+ store.dispatch(addedProductToCart({
+    product_id:2,
+    quantity:3
+ }));

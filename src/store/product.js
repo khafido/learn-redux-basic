@@ -1,57 +1,56 @@
-// ActionTypes
-export const PRODUCT_ADDED = "productAdded";
-export const PRODUCT_REMOVED = "productRemoved";
-export const PRODUCT_MARK_AS_DISCOUNT = "productMarkAsDiscount";
+import { createAction, createReducer, createSlice } from "@reduxjs/toolkit";
 
-// Action 
+// // ActionTypes
+// export const PRODUCT_ADDED = "productAdded";
+// export const PRODUCT_REMOVED = "productRemoved";
+// export const PRODUCT_MARK_AS_DISCOUNT = "productMarkAsDiscount";
 
-/**
- * 
- * @param {name, price, hasDiscount} product 
- * @returns 
- */
-export function productAdded(product = {}){
-    return {
-        type: PRODUCT_ADDED,
-        payload: {
-            name: product.name ? product.name : null,
-            price: product.price ? product.price : null,
-            hasDiscount: product.hasDiscount ? true : false
-        }
-    }
-}
+// // Action 
+// export const productAdded = createAction(PRODUCT_ADDED);
+// export const productMarkAsDiscount = createAction(PRODUCT_MARK_AS_DISCOUNT);
+// export const productRemoved = createAction(PRODUCT_REMOVED);
 
-/**
- * 
- * @param {id, hasDiscount} params 
- * @returns 
- */
-export const productMarkAsDiscount = params =>({
-    type: PRODUCT_MARK_AS_DISCOUNT,
-    payload: {
-        id: params.id,
-        hasDiscount: params.hasDiscount
-    }
-});
+// // Reducer
+// let lastId = 0;
+// const initialState = [];
 
-export const productRemoved = params =>({
-    type: PRODUCT_REMOVED,
-    payload: {
-        id: params.id
-    }
-});
-
-
-// Reducer
+// export default createReducer(initialState, {
+//     [PRODUCT_ADDED]: (state, action) => {
+//         return [
+//             ...state,
+//             {
+//                 id: ++lastId,
+//                 name: action.payload.name,
+//                 price: action.payload.price,
+//                 hasDiscount: action.payload.hasDiscount || false,
+//             }
+//         ];
+//     },
+//     [PRODUCT_MARK_AS_DISCOUNT]: (state, action) => {
+//         return state.map(product =>
+//             product.id !== action.payload.id ?
+//             product : {
+//                 ...product,
+//                 hasDiscount: action.payload.hasDiscount
+//             }
+//         );
+//     },
+//     [PRODUCT_REMOVED]: (state, action) => {
+//         return state.filter(product => product.id !== action.payload.id);
+//     }
+// });
 
 let lastId = 0;
 const initialState = [];
 
-export default function reducer(state = initialState, action){
-    switch (action.type) {
-        case PRODUCT_ADDED:
+// Slice
+const slice = createSlice({
+    name: "products",
+    initialState: initialState,
+    reducers: {
+        productAdded: (products, action) => {
             return [
-                ...state,
+                ...products,
                 {
                     id: ++lastId,
                     name: action.payload.name,
@@ -59,19 +58,21 @@ export default function reducer(state = initialState, action){
                     hasDiscount: action.payload.hasDiscount || false,
                 }
             ];
-        case PRODUCT_REMOVED:
-            return state.filter(product => product.id !== action.payload.id);
-
-        case PRODUCT_MARK_AS_DISCOUNT:
-            return state.map(product => 
-                product.id !== action.payload.id ? 
+        },
+        productMarkAsDiscount: (products, action) => {
+            return products.map(product =>
+                product.id !== action.payload.id ?
                 product : {
                     ...product,
                     hasDiscount: action.payload.hasDiscount
                 }
             );
-    
-        default:
-            return state;
+        },
+        productRemoved: (products, action) => {
+            return products.filter(product => product.id !== action.payload.id);
+        }
     }
-}
+});
+
+export const { productAdded, productMarkAsDiscount, productRemoved } = slice.actions;
+export default slice.reducer;
