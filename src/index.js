@@ -6,7 +6,7 @@ import {
 } from "./store/product";
 
 import {userAdded, userRemoved} from "./store/user";
-import { addedProductToCart } from "./store/cart";
+import { addedProductToCart, removedProductFromCart } from "./store/cart";
 
 // import {productAdded, productMarkAsDiscount, productRemoved} from "./store/product/action";
 
@@ -67,3 +67,7 @@ store.dispatch(userAdded({
     product_id:2,
     quantity:3
  }));
+
+ store.dispatch(removedProductFromCart({
+    id:1
+}));
