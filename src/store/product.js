@@ -41,26 +41,38 @@ import { createAction, createReducer, createSlice } from "@reduxjs/toolkit";
 // });
 
 let lastId = 0;
-const initialState = [];
+const initialState = {
+    list: []
+};
 
 // Slice
 const slice = createSlice({
     name: "products",
     initialState: initialState,
     reducers: {
-        productAdded: (products, action) => {
-            return [
+        apiProductsRequestSucceeded: (products, action) => {
+            // products.list = action.payload.lists;
+            return {
                 ...products,
-                {
+                list: action.payload.lists
+            };
+        },
+        apiProductRequestFailed: (products, action) => {
+            console.log('error', action.payload);
+        },
+        productAdded: (products, action) => {
+            return {
+                ...products,
+                list: [{
                     id: ++lastId,
                     name: action.payload.name,
                     price: action.payload.price,
                     hasDiscount: action.payload.hasDiscount || false,
-                }
-            ];
+                }]
+            }
         },
         productMarkAsDiscount: (products, action) => {
-            return products.map(product =>
+            return products.list.map(product =>
                 product.id !== action.payload.id ?
                 product : {
                     ...product,
@@ -69,10 +81,9 @@ const slice = createSlice({
             );
         },
         productRemoved: (products, action) => {
-            return products.filter(product => product.id !== action.payload.id);
+            return products.list.filter(product => product.id !== action.payload.id);
         }
     }
 });
-
-export const { productAdded, productMarkAsDiscount, productRemoved } = slice.actions;
+export const { apiProductsRequestSucceeded, apiProductRequestFailed, productAdded, productMarkAsDiscount, productRemoved } = slice.actions;
 export default slice.reducer;

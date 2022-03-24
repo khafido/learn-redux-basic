@@ -71,3 +71,13 @@ store.dispatch(addedProductToCart({
 store.dispatch(removedProductFromCart({
     id:1
 }));
+
+store.dispatch({
+    type: 'apiRequest',
+    payload: {
+        url: 'https://fakestoreapi.com/products',
+        method: 'GET',
+        onSuccess: 'onsuccess',
+        onError: 'onerror'
+    }
+})
