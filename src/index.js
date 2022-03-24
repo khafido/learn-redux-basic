@@ -10,9 +10,9 @@ import { addedProductToCart, removedProductFromCart } from "./store/cart";
 
 // import {productAdded, productMarkAsDiscount, productRemoved} from "./store/product/action";
 
-store.subscribe(() => {
-    console.log('Store changed!', store.getState());
-});
+// store.subscribe(() => {
+//     console.log('Store changed!', store.getState());
+// });
 
 // Products
 store.dispatch(productAdded({
@@ -58,16 +58,16 @@ store.dispatch(userAdded({
 
 
 // Cart
- store.dispatch(addedProductToCart({
+store.dispatch(addedProductToCart({
     product_id:1,
     quantity:2
- }));
+}));
 
- store.dispatch(addedProductToCart({
+store.dispatch(addedProductToCart({
     product_id:2,
     quantity:3
- }));
+}));
 
- store.dispatch(removedProductFromCart({
+store.dispatch(removedProductFromCart({
     id:1
 }));
